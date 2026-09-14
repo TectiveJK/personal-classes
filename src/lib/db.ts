@@ -112,6 +112,16 @@ export function createUser(input: {
   return findUserById(id)!;
 }
 
+export function deleteStudent(id: string) {
+  const user = findUserById(id);
+  if (!user) throw Object.assign(new Error("Student not found."), { status: 404 });
+  if (user.role !== "student") {
+    throw Object.assign(new Error("The administrator account cannot be deleted."), { status: 403 });
+  }
+  getDb().prepare("DELETE FROM users WHERE id = ?").run(id);
+  return user;
+}
+
 export function listStudents() {
   return getDb()
     .prepare("SELECT * FROM users WHERE role = 'student' ORDER BY created_at DESC")

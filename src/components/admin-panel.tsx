@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -73,10 +76,38 @@ export function AdminPanel() {
             ...current,
             sessions: payload.sessions ?? current.sessions,
             bookings: payload.bookings ?? current.bookings,
+            students: payload.students ?? current.students,
           }
         : current
     );
     toast.success("Place released.");
+  }
+
+  async function removeStudent(id: string, name: string) {
+    const confirmed = window.confirm(
+      `Delete ${name}? Their account and any reserved places will be removed.`
+    );
+    if (!confirmed) return;
+    const response = await fetch("/api/admin/students", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    const payload = (await response.json()) as Partial<Overview> & { error?: string };
+    if (!response.ok) {
+      toast.error(payload.error ?? "Could not delete that student.");
+      return;
+    }
+    setData((current) =>
+      current
+        ? {
+            sessions: payload.sessions ?? current.sessions,
+            bookings: payload.bookings ?? current.bookings,
+            students: payload.students ?? current.students,
+          }
+        : current
+    );
+    toast.success(`${name} was removed.`);
   }
 
   if (loading) return <p className="text-sm text-muted-foreground">Loading the admin board…</p>;
@@ -192,10 +223,15 @@ export function AdminPanel() {
         )}
       </TabsContent>
 
-      <TabsContent value="students" className="mt-5">
+      <TabsContent value="students" className="mt-5 space-y-5">
+        <AddStudentForm
+          onCreated={(overview) => {
+            setData(overview);
+          }}
+        />
         {data.students.length === 0 ? (
           <p className="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">
-            No student accounts yet. New accounts created on the home screen appear here.
+            No student accounts yet. Add one here, or they can create an account on the home screen.
           </p>
         ) : (
           <Table>
@@ -206,6 +242,7 @@ export function AdminPanel() {
                 <TableHead>Phone</TableHead>
                 <TableHead>Places held</TableHead>
                 <TableHead>Joined</TableHead>
+                <TableHead />
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -220,6 +257,15 @@ export function AdminPanel() {
                   <TableCell className="text-muted-foreground">
                     {new Date(student.createdAt).toLocaleDateString("en-GB")}
                   </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => void removeStudent(student.id, student.name)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -227,5 +273,104 @@ export function AdminPanel() {
         )}
       </TabsContent>
     </Tabs>
+  );
+}
+
+function AddStudentForm({ onCreated }: { onCreated: (overview: Overview) => void }) {
+  const [pending, setPending] = useState(false);
+
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const payload = new FormData(form);
+    setPending(true);
+    try {
+      const response = await fetch("/api/admin/students", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: String(payload.get("admin-student-given") ?? ""),
+          email: String(payload.get("admin-student-mail") ?? ""),
+          phone: String(payload.get("admin-student-mobile") ?? ""),
+          password: String(payload.get("admin-student-secret") ?? ""),
+        }),
+      });
+      const data = (await response.json()) as Partial<Overview> & { error?: string };
+      if (!response.ok) throw new Error(data.error ?? "Could not add the student.");
+      if (!data.sessions || !data.bookings || !data.students) {
+        throw new Error("Could not refresh the student list.");
+      }
+      onCreated({
+        sessions: data.sessions,
+        bookings: data.bookings,
+        students: data.students,
+      });
+      form.reset();
+      toast.success("Student account created.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not add the student.");
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <p className="text-xs tracking-[0.2em] text-gold uppercase">Students</p>
+        <CardTitle>Add a student</CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Create an account for someone who should book. They can then sign in on their phone.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <form className="grid gap-3 sm:grid-cols-2" onSubmit={(event) => void submit(event)}>
+          <div className="space-y-1.5">
+            <Label htmlFor="admin-student-given">Full name</Label>
+            <Input id="admin-student-given" name="admin-student-given" className="h-11" required />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="admin-student-mail">Email</Label>
+            <Input
+              id="admin-student-mail"
+              name="admin-student-mail"
+              type="text"
+              inputMode="email"
+              className="h-11"
+              autoComplete="off"
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="admin-student-mobile">Phone</Label>
+            <Input
+              id="admin-student-mobile"
+              name="admin-student-mobile"
+              type="tel"
+              inputMode="tel"
+              className="h-11"
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="admin-student-secret">Password</Label>
+            <Input
+              id="admin-student-secret"
+              name="admin-student-secret"
+              type="password"
+              className="h-11"
+              autoComplete="off"
+              minLength={8}
+              required
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <Button type="submit" className="h-11 w-full sm:w-auto" disabled={pending}>
+              {pending ? "Adding…" : "Add student"}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

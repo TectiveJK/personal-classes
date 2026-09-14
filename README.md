@@ -25,6 +25,7 @@ Sign in as administrator on your computer at `/admin` to:
 - Watch occupancy for every session
 - See which student booked which day and time
 - Read student profiles (name, email, phone)
+- Add or delete student accounts
 - Release a place if needed
 
 Student bookings and the admin board share the same live database.

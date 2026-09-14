@@ -1,5 +1,5 @@
 import { training } from "@/lib/config";
-import { findUserById, getDb, toPublicUser } from "@/lib/db";
+import { findUserById, getDb, listStudents, toPublicUser } from "@/lib/db";
 import { notifyBookingsChanged } from "@/lib/realtime";
 import { sessionHasStarted, boardSessionDates, weekdayName } from "@/lib/time";
 import type { BookingRow, SessionView } from "@/lib/types";
@@ -145,4 +145,12 @@ export function listBookings(): BookingRow[] {
 
 export function myBookings(userId: string) {
   return listBookings().filter((row) => row.student.id === userId);
+}
+
+export function getAdminOverview() {
+  return {
+    sessions: listSessionViews(),
+    bookings: listBookings(),
+    students: listStudents().map(toPublicUser),
+  };
 }

@@ -22,7 +22,8 @@ export default async function AdminPage() {
         <h1 className="font-heading mt-1 text-4xl">Bookings and students</h1>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
           Live view of every Personal Training day this month. Each class holds six students.
-          When a student books or cancels on their phone, this board updates immediately.
+          Add or delete student accounts on the Students tab. When a student books or cancels on
+          their phone, this board updates immediately.
         </p>
         <div className="mt-8">
           <AdminPanel />
