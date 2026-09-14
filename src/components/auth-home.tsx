@@ -45,9 +45,14 @@ function IphoneInstallHint() {
     <div className="mt-8 rounded-2xl border border-gold/30 bg-card/80 px-4 py-4 text-left sm:text-center">
       <p className="text-xs tracking-[0.2em] text-gold uppercase">Add to Home Screen</p>
       <p className="mt-2 text-sm leading-6 text-muted-foreground">
-        On iPhone, stay in <span className="text-foreground">Safari</span> (not Chrome). Tap the
-        Share button, then <span className="text-foreground">Add to Home Screen</span>. The Shaolin
-        PT icon will sit on the phone like an app.
+        Open this page in the phone’s browser, then add it to the Home Screen so it sits like an
+        app.
+        <br />
+        <span className="text-foreground">iPhone:</span> Safari (not Chrome) → Share → Add to Home
+        Screen.
+        <br />
+        <span className="text-foreground">Android:</span> Chrome → menu (⋮) → Add to Home screen /
+        Install app.
       </p>
     </div>
   );

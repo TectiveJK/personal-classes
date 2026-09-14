@@ -8,13 +8,13 @@ Live booking for the **Personal Training** class at [Shaolin Temple Greece 希�
 
 The class is strength and conditioning plus self-defense. Sessions are **Monday–Friday, 8:30 PM–9:30 PM**, with a **maximum of 6 students**. Students can see and book **every weekday in the current month**. When a student reserves a place, every other signed-in phone and the Admin Panel update immediately.
 
-This repository is the student app (iPhone, iPad, Windows) and the connected Admin Panel.
+This repository is the student app (iPhone, Android, iPad, Windows) and the connected Admin Panel.
 
 ## What students see
 
 - The Shaolin Temple Greece logo on the home screen
 - Create an account (required to book)
-- Sign in from iPhone, iPad, or a Windows computer
+- Sign in from iPhone, Android, iPad, or a Windows computer
 - Each weekday this month with **booked / remaining / fully booked**
 - Reserve or cancel their own place
 
@@ -51,6 +51,7 @@ npm start
 This is a web app (PWA), so one system works on every device:
 
 - **Students (iPhone / iPad):** open the student link in **Safari** → Share → **Add to Home Screen**
+- **Students (Android):** open the same link in **Chrome** → menu (⋮) → **Add to Home screen** / **Install app**
 - **Admin:** open the `/admin` link on your computer, then sign in
 - **Windows:** Edge or Chrome → Install app / Add to desktop
 
