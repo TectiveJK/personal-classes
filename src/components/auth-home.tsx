@@ -66,10 +66,10 @@ function CreateAccountCard() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: String(payload.get("student-name") ?? ""),
-          email: String(payload.get("student-email") ?? ""),
-          phone: String(payload.get("student-phone") ?? ""),
-          password: String(payload.get("student-password") ?? ""),
+          name: String(payload.get("stg-given") ?? ""),
+          email: String(payload.get("stg-mail") ?? ""),
+          phone: String(payload.get("stg-mobile") ?? ""),
+          password: String(payload.get("stg-secret") ?? ""),
         }),
       });
       const data = (await response.json()) as { error?: string };
@@ -100,47 +100,47 @@ function CreateAccountCard() {
           autoCorrect="off"
           onSubmit={(event) => void submit(event)}
         >
-          <AutofillTrap />
-          <Field label="Full name" htmlFor="student-name">
+          <Field label="Full name" htmlFor="stg-given">
             <Input
-              id="student-name"
-              name="student-name"
+              id="stg-given"
+              name="stg-given"
               className="h-11"
               autoComplete="off"
-              autoCapitalize="words"
+              maxLength={80}
               required
             />
           </Field>
-          <Field label="Email" htmlFor="student-email">
+          <Field label="Email" htmlFor="stg-mail">
             <Input
-              id="student-email"
-              name="student-email"
+              id="stg-mail"
+              name="stg-mail"
               type="text"
               inputMode="email"
               className="h-11"
               autoComplete="off"
-              autoCapitalize="none"
+              maxLength={120}
               required
             />
           </Field>
-          <Field label="Phone" htmlFor="student-phone">
+          <Field label="Phone" htmlFor="stg-mobile">
             <Input
-              id="student-phone"
-              name="student-phone"
+              id="stg-mobile"
+              name="stg-mobile"
               type="tel"
               inputMode="tel"
               className="h-11"
               autoComplete="off"
+              maxLength={20}
               required
             />
           </Field>
-          <Field label="Password" htmlFor="student-password">
+          <Field label="Password" htmlFor="stg-secret">
             <Input
-              id="student-password"
-              name="student-password"
+              id="stg-secret"
+              name="stg-secret"
               type="password"
               className="h-11"
-              autoComplete="new-password"
+              autoComplete="off"
               required
               minLength={8}
             />
@@ -222,15 +222,6 @@ function SignInCard() {
         </form>
       </CardContent>
     </Card>
-  );
-}
-
-function AutofillTrap() {
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute -left-[9999px] h-0 w-0 overflow-hidden">
-      <input type="text" name="safari-autofill-trap" tabIndex={-1} defaultValue="" />
-      <input type="password" name="safari-autofill-trap-password" tabIndex={-1} defaultValue="" />
-    </div>
   );
 }
 
