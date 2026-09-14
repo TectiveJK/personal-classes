@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { AppHeader } from "@/components/app-header";
 import { AdminPanel } from "@/components/admin-panel";
+import { AdminSignIn } from "@/components/admin-sign-in";
 import { getSession } from "@/lib/auth";
 import { findUserById, toPublicUser } from "@/lib/db";
 
@@ -8,10 +9,10 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const session = await getSession();
-  if (!session) redirect("/");
+  if (!session) return <AdminSignIn />;
   if (session.role !== "admin") redirect("/sessions");
   const user = findUserById(session.sub);
-  if (!user) redirect("/");
+  if (!user) return <AdminSignIn />;
 
   return (
     <div className="flex min-h-dvh flex-col">

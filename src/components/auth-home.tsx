@@ -22,6 +22,8 @@ export function AuthHome() {
         </p>
       </header>
 
+      <IphoneInstallHint />
+
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
         <CreateAccountCard />
         <SignInCard />
@@ -38,24 +40,37 @@ export function AuthHome() {
   );
 }
 
+function IphoneInstallHint() {
+  return (
+    <div className="mt-8 rounded-2xl border border-gold/30 bg-card/80 px-4 py-4 text-left sm:text-center">
+      <p className="text-xs tracking-[0.2em] text-gold uppercase">Add to Home Screen</p>
+      <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        On iPhone, stay in <span className="text-foreground">Safari</span> (not Chrome). Tap the
+        Share button, then <span className="text-foreground">Add to Home Screen</span>. The Shaolin
+        PT icon will sit on the phone like an app.
+      </p>
+    </div>
+  );
+}
+
 function CreateAccountCard() {
   const router = useRouter();
   const [pending, setPending] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
 
-  async function submit(event: React.FormEvent) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const payload = new FormData(event.currentTarget);
     setPending(true);
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name: String(payload.get("student-name") ?? ""),
+          email: String(payload.get("student-email") ?? ""),
+          phone: String(payload.get("student-phone") ?? ""),
+          password: String(payload.get("student-password") ?? ""),
+        }),
       });
       const data = (await response.json()) as { error?: string };
       if (!response.ok) throw new Error(data.error ?? "Could not create the account.");
@@ -79,47 +94,53 @@ function CreateAccountCard() {
         </p>
       </CardHeader>
       <CardContent>
-        <form className="space-y-3" onSubmit={(event) => void submit(event)}>
-          <Field label="Full name" htmlFor="name">
+        <form
+          className="space-y-3"
+          autoComplete="off"
+          autoCorrect="off"
+          onSubmit={(event) => void submit(event)}
+        >
+          <AutofillTrap />
+          <Field label="Full name" htmlFor="student-name">
             <Input
-              id="name"
+              id="student-name"
+              name="student-name"
               className="h-11"
-              autoComplete="name"
-              value={form.name}
-              onChange={(event) => setForm({ ...form, name: event.target.value })}
+              autoComplete="off"
+              autoCapitalize="words"
               required
             />
           </Field>
-          <Field label="Email" htmlFor="reg-email">
+          <Field label="Email" htmlFor="student-email">
             <Input
-              id="reg-email"
-              type="email"
+              id="student-email"
+              name="student-email"
+              type="text"
+              inputMode="email"
               className="h-11"
-              autoComplete="email"
-              value={form.email}
-              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              autoComplete="off"
+              autoCapitalize="none"
               required
             />
           </Field>
-          <Field label="Phone" htmlFor="phone">
+          <Field label="Phone" htmlFor="student-phone">
             <Input
-              id="phone"
+              id="student-phone"
+              name="student-phone"
               type="tel"
+              inputMode="tel"
               className="h-11"
-              autoComplete="tel"
-              value={form.phone}
-              onChange={(event) => setForm({ ...form, phone: event.target.value })}
+              autoComplete="off"
               required
             />
           </Field>
-          <Field label="Password" htmlFor="reg-password">
+          <Field label="Password" htmlFor="student-password">
             <Input
-              id="reg-password"
+              id="student-password"
+              name="student-password"
               type="password"
               className="h-11"
               autoComplete="new-password"
-              value={form.password}
-              onChange={(event) => setForm({ ...form, password: event.target.value })}
               required
               minLength={8}
             />
@@ -136,16 +157,19 @@ function CreateAccountCard() {
 function SignInCard() {
   const router = useRouter();
   const [pending, setPending] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "" });
 
-  async function submit(event: React.FormEvent) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const payload = new FormData(event.currentTarget);
     setPending(true);
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          email: String(payload.get("signin-email") ?? ""),
+          password: String(payload.get("signin-password") ?? ""),
+        }),
       });
       const data = (await response.json()) as { error?: string; user?: { role: string } };
       if (!response.ok) throw new Error(data.error ?? "Could not sign in.");
@@ -170,25 +194,25 @@ function SignInCard() {
       </CardHeader>
       <CardContent>
         <form className="space-y-3" onSubmit={(event) => void submit(event)}>
-          <Field label="Email" htmlFor="login-email">
+          <Field label="Email" htmlFor="signin-email">
             <Input
-              id="login-email"
-              type="email"
+              id="signin-email"
+              name="signin-email"
+              type="text"
+              inputMode="email"
               className="h-11"
-              autoComplete="email"
-              value={form.email}
-              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              autoComplete="username"
+              autoCapitalize="none"
               required
             />
           </Field>
-          <Field label="Password" htmlFor="login-password">
+          <Field label="Password" htmlFor="signin-password">
             <Input
-              id="login-password"
+              id="signin-password"
+              name="signin-password"
               type="password"
               className="h-11"
               autoComplete="current-password"
-              value={form.password}
-              onChange={(event) => setForm({ ...form, password: event.target.value })}
               required
             />
           </Field>
@@ -198,6 +222,15 @@ function SignInCard() {
         </form>
       </CardContent>
     </Card>
+  );
+}
+
+function AutofillTrap() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute -left-[9999px] h-0 w-0 overflow-hidden">
+      <input type="text" name="safari-autofill-trap" tabIndex={-1} defaultValue="" />
+      <input type="password" name="safari-autofill-trap-password" tabIndex={-1} defaultValue="" />
+    </div>
   );
 }
 

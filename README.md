@@ -45,19 +45,20 @@ npm run build
 npm start
 ```
 
+## Install on phones and Windows
+
+This is a web app (PWA), so one system works on every device:
+
+- **Students (iPhone / iPad):** open the student link in **Safari** → Share → **Add to Home Screen**
+- **Admin:** open the `/admin` link on your computer, then sign in
+- **Windows:** Edge or Chrome → Install app / Add to desktop
+
 ### Default administrator
 
 - Email: `admin@shaolintemplegreece.com`
 - Password: `ShaolinAdmin2026`
 
 Change these with `ADMIN_EMAIL` and `ADMIN_PASSWORD` before you go live. Set `AUTH_SECRET` to a long random string.
-
-## Install on phones and Windows
-
-This is a web app (PWA), so one system works on every device:
-
-- **iPhone / iPad:** Safari → Share → Add to Home Screen
-- **Windows:** Edge or Chrome → Install app / Add to desktop
 
 ## How booking works
 
