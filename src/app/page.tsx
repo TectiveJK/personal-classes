@@ -16,8 +16,8 @@ export default function HomePage() {
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground">
               {school.tagline} Work directly with {primaryInstructor.dharmaName}{" "}
-              {primaryInstructor.chinese} — {primaryInstructor.generation} — in the Sepolia hall.
-              No crowded lines. Correction you can feel.
+              {primaryInstructor.chinese} — {primaryInstructor.generation} — at the authorised
+              Shaolin cultural centre in Athens. No crowded lines. Correction you can feel.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" render={<Link href="/book" />}>
@@ -37,7 +37,7 @@ export default function HomePage() {
               “The way is not in the sky. The way is in the heart.”
             </blockquote>
             <p className="mt-4 text-center text-sm tracking-[0.18em] text-gold uppercase">
-              Shaolin Temple Disciple’s Union
+              {school.name} · {school.chinese}
             </p>
             <dl className="mt-8 grid grid-cols-3 gap-3 text-center">
               <Stat value="2008" label="Hall opened" />
@@ -85,7 +85,7 @@ export default function HomePage() {
           <div className="rounded-2xl border border-gold/20 p-6">
             <p className="text-xs tracking-[0.22em] text-gold uppercase">How booking works</p>
             <ol className="mt-5 space-y-4">
-              <Step n="01" title="Choose the art" body="Wu Gong, Qi Gong, Tai Ji, weapons, kids, or a first trial." />
+              <Step n="01" title="Choose the art" body="Shaolin Kung Fu, Chen Taiji, Qigong, Gu Luin, Chan, or a first trial." />
               <Step n="02" title="Take an open hour" body="The calendar shows the next three weeks in Athens time. One student per slot." />
               <Step n="03" title="Arrive ready" body="Pay at the hall. Bring water and loose clothes. We hold the time until four hours before." />
             </ol>

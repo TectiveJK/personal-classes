@@ -32,10 +32,10 @@ export function SiteHeader() {
           <Seal className="size-10" />
           <span className="leading-tight">
             <span className="font-heading block text-lg tracking-wide text-foreground">
-              Shaolin Personal Classes
+              Shaolin Temple Greece
             </span>
             <span className="font-seal text-xs tracking-[0.22em] text-gold/80">
-              少林私教 · Athens
+              希腊少林寺 · Personal classes
             </span>
           </span>
         </Link>
@@ -77,7 +77,7 @@ export function SiteHeader() {
           </SheetTrigger>
           <SheetContent side="right" className="w-72">
             <SheetHeader>
-              <SheetTitle>Shaolin Personal Classes</SheetTitle>
+              <SheetTitle>Shaolin Temple Greece</SheetTitle>
             </SheetHeader>
             <div className="mt-6 flex flex-col gap-2 px-4">
               {links.map((link) => (

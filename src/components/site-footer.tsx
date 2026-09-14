@@ -8,14 +8,24 @@ export function SiteFooter() {
           <p className="font-heading text-xl text-foreground">{school.name}</p>
           <p className="mt-1 text-sm text-gold/80">{school.chinese}</p>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-            Private Shaolin instruction in Sepolia, Athens, in the lineage of the
-            Shaolin Temple Disciple’s Union.
+            Official Shaolin Temple Cultural Center in Greece. Private classes with Master Shi Yan
+            Xiang at the Athens hall.
           </p>
         </div>
         <div>
-          <p className="text-xs tracking-[0.2em] text-gold uppercase">Hall</p>
+          <p className="text-xs tracking-[0.2em] text-gold uppercase">Centre</p>
           <p className="mt-2 text-sm text-muted-foreground">{school.address}</p>
           <p className="text-sm text-muted-foreground">{school.city}</p>
+          <p className="mt-2 text-sm">
+            <a
+              className="hover:text-gold"
+              href={school.website}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {school.websiteLabel}
+            </a>
+          </p>
         </div>
         <div>
           <p className="text-xs tracking-[0.2em] text-gold uppercase">Contact</p>

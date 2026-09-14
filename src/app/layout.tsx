@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: `%s · ${school.name}`,
   },
   description:
-    "Book a private Shaolin session in Sepolia, Athens — Wu Gong, Qi Gong, Tai Ji, weapons, and kids coaching with Shi Ti Lin.",
+    "Book a private Shaolin session in Athens at Shaolin Temple Greece 希腊少林寺 — Kung Fu, Chen Taiji, Qigong, and Chan with Master Shi Yan Xiang.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

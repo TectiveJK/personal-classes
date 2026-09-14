@@ -12,8 +12,8 @@ export default function ClassesPage() {
       <p className="text-xs tracking-[0.22em] text-gold uppercase">Curriculum</p>
       <h1 className="font-heading mt-2 text-5xl">Personal class types</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">
-        Every booking is a private hour with Shi Ti Lin. Group timetable energy stays in group
-        class. Here the work is yours.
+        Every booking is a private hour with Master Shi Yan Xiang at Shaolin Temple Greece.
+        Group timetable energy stays in group class. Here the work is yours.
       </p>
       <div className="mt-10 grid gap-5 md:grid-cols-2">
         {disciplines.map((discipline) => (
