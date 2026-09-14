@@ -1,14 +1,21 @@
+<p align="center">
+  <img src="public/logo-app.png" alt="Shaolin Temple Greece 希腊少林寺" width="280" />
+</p>
+
 # Shaolin Temple Greece — Personal Training
 
 Live booking for the **Personal Training** class at [Shaolin Temple Greece 希腊少林寺](https://www.shaolintemplegreece.com) Cultural Center.
 
 The class is strength and conditioning plus self-defense. Sessions are **Monday–Friday, 8:30 PM–9:30 PM**, with a **maximum of 5 students**. When a student reserves a place, every other signed-in phone and the Admin Panel update immediately.
 
+This repository is the student app (iPhone, iPad, Windows) and the connected Admin Panel.
+
 ## What students see
 
-- Create an account on the home screen (required to book)
+- The Shaolin Temple Greece logo on the home screen
+- Create an account (required to book)
 - Sign in from iPhone, iPad, or a Windows computer
-- See each weekday session with **booked / remaining / fully booked**
+- Each weekday session with **booked / remaining / fully booked**
 - Reserve or cancel their own place
 
 ## What you see (Admin Panel)
@@ -22,7 +29,7 @@ Sign in as administrator on your computer at `/admin` to:
 
 Student bookings and the admin board share the same live database.
 
-## Run on your Windows computer
+## Run locally
 
 ```bash
 npm install
@@ -65,3 +72,7 @@ Each listed session is one hour, 8:30–9:30 PM:
 Capacity is 5. Example: 3 booked → **2 places remaining**. At 5 booked the session is **fully booked** and the reserve button is closed.
 
 Bookings are stored in `.data/shaolin.db` on the machine that runs the server. Real-time updates need that one server to stay running.
+
+## School
+
+Shaolin Temple Greece 希腊少林寺 · 84–86 Prevezis Street, 104 43 Athens · [www.shaolintemplegreece.com](https://www.shaolintemplegreece.com)

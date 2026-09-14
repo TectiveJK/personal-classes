@@ -8,14 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { school, training } from "@/lib/config";
+import { SchoolLogo } from "@/components/school-logo";
 
 export function AuthHome() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-4 py-8 sm:max-w-5xl">
       <header className="text-center">
-        <p className="font-seal text-sm tracking-[0.28em] text-gold">{school.chinese}</p>
-        <h1 className="font-heading mt-2 text-4xl sm:text-5xl">{school.name}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{school.center}</p>
+        <SchoolLogo className="mx-auto h-44 w-auto sm:h-56" priority />
+        <p className="mt-4 text-sm text-muted-foreground">{school.center}</p>
         <p className="mt-5 text-base leading-7 text-muted-foreground">
           {training.title}: {training.focus}. Monday–Friday, {training.startLabel} to{" "}
           {training.endLabel}. Five places per session.
