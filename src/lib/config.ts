@@ -6,7 +6,7 @@ export const school = {
   websiteLabel: "www.shaolintemplegreece.com",
   email: "info@shaolintemplegreece.com",
   phone: "+30 211 267 2597",
-  address: "84–86 Prevezis Street, 104 43 Athens",
+  address: "77 Dodonis Street, 10444 Athens",
   timezone: "Europe/Athens",
 } as const;
 

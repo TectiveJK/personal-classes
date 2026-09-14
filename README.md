@@ -79,4 +79,4 @@ Bookings are stored in `.data/shaolin.db` on the machine that runs the server. R
 
 ## School
 
-Shaolin Temple Greece 希腊少林寺 · 84–86 Prevezis Street, 104 43 Athens · [www.shaolintemplegreece.com](https://www.shaolintemplegreece.com)
+Shaolin Temple Greece 希腊少林寺 · 77 Dodonis Street, 10444 Athens · [www.shaolintemplegreece.com](https://www.shaolintemplegreece.com)
