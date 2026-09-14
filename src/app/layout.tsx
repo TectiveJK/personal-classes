@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: `%s · ${school.name}`,
   },
   description:
-    "Book a place in Personal Training at Shaolin Temple Greece Cultural Center. Monday to Friday, 8:30–9:30 PM, five students per session.",
+    "Book a place in Personal Training at Shaolin Temple Greece Cultural Center. Monday to Friday, 8:30–9:30 PM, six students per session.",
   appleWebApp: {
     capable: true,
     title: "Shaolin PT",

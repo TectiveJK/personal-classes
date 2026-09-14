@@ -6,7 +6,7 @@
 
 Live booking for the **Personal Training** class at [Shaolin Temple Greece 希腊少林寺](https://www.shaolintemplegreece.com) Cultural Center.
 
-The class is strength and conditioning plus self-defense. Sessions are **Monday–Friday, 8:30 PM–9:30 PM**, with a **maximum of 5 students**. When a student reserves a place, every other signed-in phone and the Admin Panel update immediately.
+The class is strength and conditioning plus self-defense. Sessions are **Monday–Friday, 8:30 PM–9:30 PM**, with a **maximum of 6 students**. Students can see and book **every weekday in the current month**. When a student reserves a place, every other signed-in phone and the Admin Panel update immediately.
 
 This repository is the student app (iPhone, iPad, Windows) and the connected Admin Panel.
 
@@ -15,7 +15,7 @@ This repository is the student app (iPhone, iPad, Windows) and the connected Adm
 - The Shaolin Temple Greece logo on the home screen
 - Create an account (required to book)
 - Sign in from iPhone, iPad, or a Windows computer
-- Each weekday session with **booked / remaining / fully booked**
+- Each weekday this month with **booked / remaining / fully booked**
 - Reserve or cancel their own place
 
 ## What you see (Admin Panel)
@@ -70,7 +70,9 @@ Each listed session is one hour, 8:30–9:30 PM:
 - Thursday
 - Friday
 
-Capacity is 5. Example: 3 booked → **2 places remaining**. At 5 booked the session is **fully booked** and the reserve button is closed.
+Capacity is 6. Example: 3 booked → **3 places remaining**. At 6 booked the session is **fully booked** and the reserve button is closed.
+
+The board shows every Monday–Friday in the **current month** (Athens time). Past days stay visible but cannot be booked.
 
 Bookings are stored in `.data/shaolin.db` on the machine that runs the server. Real-time updates need that one server to stay running.
 

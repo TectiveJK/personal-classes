@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { training } from "@/lib/config";
-import { formatLongDate } from "@/lib/time";
+import { formatLongDate, formatWeekHeading, groupByWeek } from "@/lib/time";
 import { useLiveSessions } from "@/components/use-live-sessions";
 import type { SessionView } from "@/lib/types";
 
@@ -42,72 +42,80 @@ export function SessionBoard() {
   }
 
   if (loading) {
-    return <p className="text-sm text-muted-foreground">Loading this week’s sessions…</p>;
+    return <p className="text-sm text-muted-foreground">Loading this month’s sessions…</p>;
   }
   if (error) {
     return <p className="text-sm text-destructive">{error}</p>;
   }
 
+  const weeks = groupByWeek(sessions);
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <p className="text-sm text-muted-foreground">
         {training.title} · {training.focus}. Each session holds {training.capacity} students.
-        Numbers update live for everyone signed in.
+        All weeks of this month are listed. Days that have already started stay visible but cannot
+        be booked. Numbers update live for everyone signed in.
       </p>
-      <ul className="space-y-3">
-        {sessions.map((session) => (
-          <li
-            key={session.date}
-            className="rounded-2xl border border-border bg-card/80 p-4"
-          >
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <p className="text-xs tracking-[0.18em] text-gold uppercase">{session.weekday}</p>
-                <h2 className="font-heading text-2xl">{formatLongDate(session.date)}</h2>
-                <p className="mt-1 text-sm">
-                  {session.startLabel} to {session.endLabel}
+      {weeks.map((week) => (
+        <section key={week.monday} className="space-y-3">
+          <h2 className="font-heading text-xl text-gold">{formatWeekHeading(week.monday)}</h2>
+          <ul className="space-y-3">
+            {week.items.map((session) => (
+              <li
+                key={session.date}
+                className="rounded-2xl border border-border bg-card/80 p-4"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs tracking-[0.18em] text-gold uppercase">{session.weekday}</p>
+                    <h3 className="font-heading text-2xl">{formatLongDate(session.date)}</h3>
+                    <p className="mt-1 text-sm">
+                      {session.startLabel} to {session.endLabel}
+                    </p>
+                  </div>
+                  <Status session={session} />
+                </div>
+                <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full bg-primary"
+                    style={{ width: `${(session.booked / session.capacity) * 100}%` }}
+                  />
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {session.booked} of {session.capacity} places booked
+                  {session.full
+                    ? " · Fully booked"
+                    : ` · ${session.remaining} ${session.remaining === 1 ? "place" : "places"} remaining`}
                 </p>
-              </div>
-              <Status session={session} />
-            </div>
-            <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
-              <div
-                className="h-full bg-primary"
-                style={{ width: `${(session.booked / session.capacity) * 100}%` }}
-              />
-            </div>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {session.booked} of {session.capacity} places booked
-              {session.full
-                ? " · Fully booked"
-                : ` · ${session.remaining} ${session.remaining === 1 ? "place" : "places"} remaining`}
-            </p>
-            <div className="mt-4">
-              {session.past ? (
-                <Button className="h-11 w-full sm:w-auto" disabled>
-                  Session started
-                </Button>
-              ) : session.mine ? (
-                <Button
-                  className="h-11 w-full sm:w-auto"
-                  variant="outline"
-                  onClick={() => void cancel(session.date)}
-                >
-                  Cancel my place
-                </Button>
-              ) : session.full ? (
-                <Button className="h-11 w-full sm:w-auto" disabled>
-                  Fully booked
-                </Button>
-              ) : (
-                <Button className="h-11 w-full sm:w-auto" onClick={() => void book(session.date)}>
-                  Reserve a place
-                </Button>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+                <div className="mt-4">
+                  {session.past ? (
+                    <Button className="h-11 w-full sm:w-auto" disabled>
+                      Session started
+                    </Button>
+                  ) : session.mine ? (
+                    <Button
+                      className="h-11 w-full sm:w-auto"
+                      variant="outline"
+                      onClick={() => void cancel(session.date)}
+                    >
+                      Cancel my place
+                    </Button>
+                  ) : session.full ? (
+                    <Button className="h-11 w-full sm:w-auto" disabled>
+                      Fully booked
+                    </Button>
+                  ) : (
+                    <Button className="h-11 w-full sm:w-auto" onClick={() => void book(session.date)}>
+                      Reserve a place
+                    </Button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </div>
   );
 }

@@ -55,14 +55,57 @@ export function sessionHasStarted(date: string, now = new Date()) {
   return current.time >= training.start;
 }
 
-export function upcomingSessionDates(now = new Date()) {
+export function currentMonthLabel(now = new Date()) {
   const today = athensParts(now).date;
+  const [year, month] = today.split("-").map(Number);
+  return new Intl.DateTimeFormat("en-GB", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(year, month - 1, 1)));
+}
+
+export function mondayOf(date: string) {
+  const index = weekdayIndex(date);
+  const delta = index === 0 ? -6 : 1 - index;
+  return addDays(date, delta);
+}
+
+export function formatWeekHeading(monday: string) {
+  const [year, month, day] = monday.split("-").map(Number);
+  const label = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+  return `Week of ${label}`;
+}
+
+export function boardSessionDates(now = new Date()) {
+  const today = athensParts(now).date;
+  const [year, month] = today.split("-").map(Number);
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
   const dates: string[] = [];
-  for (let offset = 0; offset < training.horizonDays; offset += 1) {
-    const date = addDays(today, offset);
+  for (let day = 1; day <= lastDay; day += 1) {
+    const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     if ((training.weekdayIndexes as readonly number[]).includes(weekdayIndex(date))) {
       dates.push(date);
     }
   }
   return dates;
+}
+
+export function upcomingSessionDates(now = new Date()) {
+  return boardSessionDates(now);
+}
+
+export function groupByWeek<T extends { date: string }>(items: T[]) {
+  const groups: { monday: string; items: T[] }[] = [];
+  for (const item of items) {
+    const monday = mondayOf(item.date);
+    const last = groups.at(-1);
+    if (last && last.monday === monday) last.items.push(item);
+    else groups.push({ monday, items: [item] });
+  }
+  return groups;
 }

@@ -1,7 +1,7 @@
 import { training } from "@/lib/config";
 import { findUserById, getDb, toPublicUser } from "@/lib/db";
 import { notifyBookingsChanged } from "@/lib/realtime";
-import { sessionHasStarted, upcomingSessionDates, weekdayName } from "@/lib/time";
+import { sessionHasStarted, boardSessionDates, weekdayName } from "@/lib/time";
 import type { BookingRow, SessionView } from "@/lib/types";
 
 type BookingRecord = {
@@ -24,7 +24,7 @@ export function listSessionViews(userId?: string): SessionView[] {
     if (userId && row.user_id === userId) mine.add(row.session_date);
   }
 
-  return upcomingSessionDates().map((date) => {
+  return boardSessionDates().map((date) => {
     const booked = counts.get(date) ?? 0;
     const remaining = Math.max(0, training.capacity - booked);
     const past = sessionHasStarted(date);
@@ -46,7 +46,7 @@ export function listSessionViews(userId?: string): SessionView[] {
 }
 
 export function createBooking(userId: string, sessionDate: string) {
-  if (!upcomingSessionDates().includes(sessionDate)) {
+  if (!boardSessionDates().includes(sessionDate)) {
     throw Object.assign(new Error("That session is not on the board."), { status: 400 });
   }
   if (sessionHasStarted(sessionDate)) {

@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatLongDate } from "@/lib/time";
+import { formatLongDate, formatWeekHeading, groupByWeek } from "@/lib/time";
 import type { BookingRow, PublicUser, SessionView } from "@/lib/types";
 
 type Overview = {
@@ -97,14 +97,18 @@ export function AdminPanel() {
       </TabsList>
 
       <TabsContent value="sessions" className="mt-5">
-        <div className="grid gap-3">
-          {data.sessions.map((session) => (
+        <div className="space-y-8">
+          {groupByWeek(data.sessions).map((week) => (
+            <section key={week.monday} className="space-y-3">
+              <h2 className="font-heading text-xl text-gold">{formatWeekHeading(week.monday)}</h2>
+              <div className="grid gap-3">
+                {week.items.map((session) => (
             <article key={session.date} className="rounded-xl border border-border bg-card p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <h2 className="font-heading text-xl">
+                  <h3 className="font-heading text-xl">
                     {session.weekday} · {formatLongDate(session.date)}
-                  </h2>
+                  </h3>
                   <p className="text-sm text-muted-foreground">
                     {session.startLabel}–{session.endLabel}
                   </p>
@@ -132,6 +136,9 @@ export function AdminPanel() {
                 )}
               </ul>
             </article>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       </TabsContent>

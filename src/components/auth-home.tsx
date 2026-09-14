@@ -18,7 +18,7 @@ export function AuthHome() {
         <p className="mt-4 text-sm text-muted-foreground">{school.center}</p>
         <p className="mt-5 text-base leading-7 text-muted-foreground">
           {training.title}: {training.focus}. Monday–Friday, {training.startLabel} to{" "}
-          {training.endLabel}. Five places per session.
+          {training.endLabel}. Six places per session. Book any weekday this month.
         </p>
       </header>
 

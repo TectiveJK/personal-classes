@@ -17,9 +17,8 @@ export const training = {
   end: "21:30",
   startLabel: "8:30 PM",
   endLabel: "9:30 PM",
-  capacity: 5,
+  capacity: 6,
   weekdayIndexes: [1, 2, 3, 4, 5],
-  horizonDays: 21,
 } as const;
 
 export const WEEKDAY_NAMES = [
