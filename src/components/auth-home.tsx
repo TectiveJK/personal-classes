@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,7 +58,6 @@ function IphoneInstallHint() {
 }
 
 function CreateAccountCard() {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -69,6 +67,7 @@ function CreateAccountCard() {
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: String(payload.get("stg-given") ?? ""),
@@ -80,8 +79,7 @@ function CreateAccountCard() {
       const data = (await response.json()) as { error?: string };
       if (!response.ok) throw new Error(data.error ?? "Could not create the account.");
       toast.success("Account created. You can book a place now.");
-      router.push("/sessions");
-      router.refresh();
+      window.location.assign("/sessions");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not create the account.");
     } finally {
@@ -160,7 +158,6 @@ function CreateAccountCard() {
 }
 
 function SignInCard() {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -170,6 +167,7 @@ function SignInCard() {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: String(payload.get("signin-email") ?? ""),
@@ -179,8 +177,7 @@ function SignInCard() {
       const data = (await response.json()) as { error?: string; user?: { role: string } };
       if (!response.ok) throw new Error(data.error ?? "Could not sign in.");
       toast.success("Signed in.");
-      router.push(data.user?.role === "admin" ? "/admin" : "/sessions");
-      router.refresh();
+      window.location.assign(data.user?.role === "admin" ? "/admin" : "/sessions");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not sign in.");
     } finally {

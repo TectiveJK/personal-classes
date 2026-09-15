@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +10,6 @@ import { school } from "@/lib/config";
 import { SchoolLogo } from "@/components/school-logo";
 
 export function AdminSignIn() {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -21,6 +19,7 @@ export function AdminSignIn() {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: String(payload.get("admin-email") ?? ""),
@@ -33,8 +32,7 @@ export function AdminSignIn() {
         throw new Error("This page is for the administrator only.");
       }
       toast.success("Admin signed in.");
-      router.push("/admin");
-      router.refresh();
+      window.location.assign("/admin");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not sign in.");
     } finally {

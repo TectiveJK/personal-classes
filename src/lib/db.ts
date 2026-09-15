@@ -61,7 +61,7 @@ function seedAdmin(db: DatabaseSync) {
     `INSERT INTO users (id, name, email, phone, password_hash, role, created_at)
      VALUES (?, ?, ?, ?, ?, 'admin', ?)`
   ).run(
-    crypto.randomUUID(),
+    "stg-centre-admin",
     "Centre Administrator",
     email,
     "+30 211 267 2597",

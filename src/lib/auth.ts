@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import type { Role } from "@/lib/types";
 
 export type SessionPayload = {
@@ -37,12 +37,17 @@ export async function readSessionToken(token: string) {
 export async function setSessionCookie(payload: SessionPayload) {
   const token = await createSessionToken(payload);
   const store = await cookies();
+  const proto = ((await headers()).get("x-forwarded-proto") ?? "").split(",")[0].trim();
+  const secure =
+    process.env.COOKIE_SECURE === "1" ||
+    proto === "https" ||
+    Boolean(process.env.VERCEL && process.env.COOKIE_SECURE !== "0");
   store.set(COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
-    secure: process.env.NODE_ENV === "production" || process.env.FORCE_SECURE_COOKIE === "1",
+    secure,
   });
 }
 

@@ -3,7 +3,7 @@ import { AppHeader } from "@/components/app-header";
 import { AdminPanel } from "@/components/admin-panel";
 import { AdminSignIn } from "@/components/admin-sign-in";
 import { getSession } from "@/lib/auth";
-import { findUserById, toPublicUser } from "@/lib/db";
+import { findUserByEmail, findUserById, toPublicUser } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -11,8 +11,18 @@ export default async function AdminPage() {
   const session = await getSession();
   if (!session) return <AdminSignIn />;
   if (session.role !== "admin") redirect("/sessions");
-  const user = findUserById(session.sub);
-  if (!user) return <AdminSignIn />;
+  const user =
+    findUserById(session.sub) ??
+    findUserByEmail(session.email) ??
+    ({
+      id: session.sub,
+      name: session.name,
+      email: session.email,
+      phone: "",
+      password_hash: "",
+      role: "admin" as const,
+      createdAt: new Date().toISOString(),
+    } satisfies ReturnType<typeof findUserById> & object);
 
   return (
     <div className="flex min-h-dvh flex-col">

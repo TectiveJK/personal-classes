@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as Record<string, string>;
-    const email = String(body.email ?? "").trim();
+    const email = String(body.email ?? "").trim().toLowerCase();
     const password = String(body.password ?? "");
     const user = findUserByEmail(email);
     if (!user || !verifyPassword(password, user.password_hash)) {
