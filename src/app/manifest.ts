@@ -5,8 +5,11 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Shaolin Temple Greece Personal Training",
     short_name: "Shaolin PT",
     description: "Reserve a place in Personal Training at Shaolin Temple Greece.",
+    id: "/",
     start_url: "/",
+    scope: "/",
     display: "standalone",
+    display_override: ["standalone", "minimal-ui"],
     background_color: "#170d09",
     theme_color: "#170d09",
     icons: [

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { school, training } from "@/lib/config";
+import { publicApp, school, training } from "@/lib/config";
 import { SchoolLogo } from "@/components/school-logo";
 
 export function AuthHome() {
@@ -42,16 +42,17 @@ export function AuthHome() {
 function IphoneInstallHint() {
   return (
     <div className="mt-8 rounded-2xl border border-gold/30 bg-card/80 px-4 py-4 text-left sm:text-center">
-      <p className="text-xs tracking-[0.2em] text-gold uppercase">Add to Home Screen</p>
-      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-        Open this page in the phone’s browser, then add it to the Home Screen so it sits like an
-        app.
+      <p className="text-xs tracking-[0.2em] text-gold uppercase">Open this address</p>
+      <p className="mt-2 break-all font-medium text-foreground">{publicApp.origin}</p>
+      <p className="mt-3 text-sm leading-6 text-muted-foreground">
+        Type that address in the phone’s browser. Old Home Screen icons from earlier links will say
+        the website is not available — delete those icons and add this page again.
+        <br />
+        <span className="text-foreground">Android:</span> Chrome (not Instagram or Facebook) → type
+        the address → menu (⋮) → Add to Home screen.
         <br />
         <span className="text-foreground">iPhone:</span> Safari (not Chrome) → Share → Add to Home
         Screen.
-        <br />
-        <span className="text-foreground">Android:</span> Chrome → menu (⋮) → Add to Home screen /
-        Install app.
       </p>
     </div>
   );

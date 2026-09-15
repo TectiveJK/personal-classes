@@ -36,6 +36,9 @@ yarn-error.log*
 # local database
 .data
 
+# accidental nested clone
+/personal-classes
+
 
 # vercel
 .vercel

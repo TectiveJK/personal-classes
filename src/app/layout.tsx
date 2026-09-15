@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Outfit, Noto_Serif_SC, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
-import { school } from "@/lib/config";
+import { publicApp, school } from "@/lib/config";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -34,12 +34,15 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(publicApp.origin),
   title: {
     default: `${school.name} · Personal Training`,
     template: `%s · ${school.name}`,
   },
   description:
     "Book a place in Personal Training at Shaolin Temple Greece Cultural Center. Monday to Friday, 8:30–9:30 PM, six students per session.",
+  robots: { index: true, follow: true },
+  applicationName: "Shaolin PT",
   appleWebApp: {
     capable: true,
     title: "Shaolin PT",

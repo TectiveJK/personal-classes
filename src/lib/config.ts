@@ -10,6 +10,13 @@ export const school = {
   timezone: "Europe/Athens",
 } as const;
 
+/** Public HTTPS origin phones and the admin computer should open. */
+export const publicApp = {
+  origin: "https://shaolin-pt.vercel.app",
+  student: "https://shaolin-pt.vercel.app/",
+  admin: "https://shaolin-pt.vercel.app/admin",
+} as const;
+
 export const training = {
   title: "Personal Training",
   focus: "Strength and conditioning · Self-defense",

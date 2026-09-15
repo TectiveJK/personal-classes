@@ -10,6 +10,15 @@ The class is strength and conditioning plus self-defense. Sessions are **Monday�
 
 This repository is the student app (iPhone, Android, iPad, Windows) and the connected Admin Panel.
 
+## Live links (open these on phones)
+
+Use these HTTPS addresses. They stay up day and night.
+
+- **Students:** [https://shaolin-pt.vercel.app](https://shaolin-pt.vercel.app)
+- **Admin panel:** [https://shaolin-pt.vercel.app/admin](https://shaolin-pt.vercel.app/admin)
+
+On **Android**, open **Chrome** (not Instagram, Facebook, or a saved icon from an older link). Type the student address exactly. If the phone says “website is not available”, the Home Screen shortcut is pointing at an expired address — delete that icon, open the link above in Chrome, then Add to Home screen again.
+
 ## What students see
 
 - The Shaolin Temple Greece logo on the home screen
@@ -50,9 +59,9 @@ npm start
 
 This is a web app (PWA), so one system works on every device:
 
-- **Students (iPhone / iPad):** open the student link in **Safari** → Share → **Add to Home Screen**
-- **Students (Android):** open the same link in **Chrome** → menu (⋮) → **Add to Home screen** / **Install app**
-- **Admin:** open the `/admin` link on your computer, then sign in
+- **Students (iPhone / iPad):** open [https://shaolin-pt.vercel.app](https://shaolin-pt.vercel.app) in **Safari** → Share → **Add to Home Screen**
+- **Students (Android):** open [https://shaolin-pt.vercel.app](https://shaolin-pt.vercel.app) in **Chrome** → menu (⋮) → **Add to Home screen** / **Install app**. Delete any older icon that no longer opens.
+- **Admin:** open [https://shaolin-pt.vercel.app/admin](https://shaolin-pt.vercel.app/admin) on your computer, then sign in
 - **Windows:** Edge or Chrome → Install app / Add to desktop
 
 ### Default administrator
