@@ -4,6 +4,7 @@ import { AdminPanel } from "@/components/admin-panel";
 import { AdminSignIn } from "@/components/admin-sign-in";
 import { getSession } from "@/lib/auth";
 import { findUserByEmail, findUserById, toPublicUser } from "@/lib/db";
+import type { PublicUser } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -11,22 +12,21 @@ export default async function AdminPage() {
   const session = await getSession();
   if (!session) return <AdminSignIn />;
   if (session.role !== "admin") redirect("/sessions");
-  const user =
-    findUserById(session.sub) ??
-    findUserByEmail(session.email) ??
-    ({
-      id: session.sub,
-      name: session.name,
-      email: session.email,
-      phone: "",
-      password_hash: "",
-      role: "admin" as const,
-      createdAt: new Date().toISOString(),
-    } satisfies ReturnType<typeof findUserById> & object);
+  const record = findUserById(session.sub) ?? findUserByEmail(session.email);
+  const user: PublicUser = record
+    ? toPublicUser(record)
+    : {
+        id: session.sub,
+        name: session.name,
+        email: session.email,
+        phone: "",
+        role: "admin",
+        createdAt: new Date().toISOString(),
+      };
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <AppHeader user={toPublicUser(user)} />
+      <AppHeader user={user} />
       <div className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
         <p className="text-xs tracking-[0.2em] text-gold uppercase">Admin panel</p>
         <h1 className="font-heading mt-1 text-4xl">Bookings and students</h1>
