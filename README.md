@@ -48,7 +48,7 @@ npm run dev
 
 Open [http://localhost:4317](http://localhost:4317).
 
-For phones on the same Wi-Fi, use your computer’s local IP, for example `http://192.168.1.20:4317`. For students outside the house, host this app on a small always-on computer or a web host, then share that URL.
+Localhost is only for development on this computer. Students and Android phones must use the live HTTPS links above, not `localhost` or a Home Screen icon saved from an older tunnel.
 
 ```bash
 npm run build
